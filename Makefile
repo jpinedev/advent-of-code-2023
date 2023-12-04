@@ -1,4 +1,4 @@
-PROGRAMS=
+PROGRAMS= day1
 
 CC=g++-12
 CXXFLAGS=-std=c++20 -O0 -fno-inline -g -Wall -Wextra -Wpedantic -Werror -pedantic-errors -pthread
@@ -7,7 +7,7 @@ LDFLAGS=-std=c++20
 all: $(PROGRAMS)
 
 main: main.o
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $(LDFLAGS) $^ -o $@.out
 
 tests: tests.o
 
