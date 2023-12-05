@@ -38,6 +38,8 @@ struct RGBCubes
         blue = max<uint8_t>(blue, other.blue);
         return *this;
     }
+
+    int GetPower() const { return (int)red * green * blue; }
 };
 
 struct Game
@@ -136,15 +138,20 @@ void Part1(const vector<Game> &inputs, const RGBCubes& cubesInBag)
     cout << "Part 1: " << sum << endl;
 }
 
-// void Part2(const vector<string> &inputs)
-// {
+void Part2(const vector<Game> &inputs)
+{
+    int sum = 0;
 
-// }
+    for (auto it = inputs.begin(); it != inputs.end(); ++it)
+        sum += it->GetMaxSubset().GetPower();
+
+    cout << "Part 2: " << sum << endl;
+}
 
 int main()
 {
   auto inputs = ParseInputs();
   Part1(inputs, RGBCubes{12, 13, 14});
-  // Part2(inputs);
+  Part2(inputs);
   return 0;
 }
