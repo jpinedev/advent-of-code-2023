@@ -13,7 +13,7 @@ struct Race
     size_t distanceToBeat;
 };
 
-vector<Race> ParseInputs()
+vector<Race> ParseRaces()
 {
     vector<Race> inputs;
 
@@ -60,15 +60,32 @@ void Part1(const vector<Race> &inputs)
     cout << "Part 1: " << product << endl;
 }
 
-// void Part2(const vector<Race> &inputs)
-// {
+Race ParseRace(const vector<Race>& races)
+{
+    stringstream time;
+    stringstream distance;
+    Race race;
 
-// }
+    for (auto race : races)
+    {
+        time << race.time;
+        distance << race.distanceToBeat;
+    }
+    time >> race.time;
+    distance >> race.distanceToBeat;
+
+    return race;
+}
+
+void Part2(const Race &race)
+{
+    cout << "Part 2: " << CountWinningStrategies(race) << endl;
+}
 
 int main()
 {
-  vector<Race> inputs = ParseInputs();
-  Part1(inputs);
-  // Part2(inputs);
-  return 0;
+    auto races = ParseRaces();
+    Part1(races);
+    Part2(ParseRace(races));
+    return 0;
 }
