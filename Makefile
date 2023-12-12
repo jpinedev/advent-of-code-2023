@@ -1,4 +1,4 @@
-PROGRAMS= day1 day2 day3 day4 day5
+PROGRAMS= day1 day2 day3 day4 day5 day6
 
 CC=g++-12
 CXXFLAGS=-std=c++20 -O0 -fno-inline -g -Wall -Wextra -Wpedantic -Werror -pedantic-errors -pthread
