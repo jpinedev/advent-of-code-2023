@@ -37,6 +37,14 @@ public:
         return mSeq.back() + ReduceSequence().PredictNextNumber();
     }
 
+    long ExtrapolatePreviousNumber() const
+    {
+        if (IsZeros())
+            return 0;
+
+        return mSeq.front() - ReduceSequence().ExtrapolatePreviousNumber();
+    }
+
     bool IsZeros() const { return all_of(mSeq.begin(), mSeq.end(), [](const long& num) { return num == 0l; }); }
 
     const long& GetBack() const { return mSeq.back(); }
@@ -81,15 +89,20 @@ void Part1(const vector<Sequence> &inputs)
     cout << "Part 1: " << sum << endl;
 }
 
-// void Part2(const vector<Sequence> &inputs)
-// {
+void Part2(const vector<Sequence> &inputs)
+{
+    long sum = 0;
 
-// }
+    for (auto it = inputs.begin(); it != inputs.end(); ++it)
+        sum += it->ExtrapolatePreviousNumber();
+
+    cout << "Part 2: " << sum << endl;
+}
 
 int main()
 {
   vector<Sequence> inputs = ParseInputs();
   Part1(inputs);
-  // Part2(inputs);
+  Part2(inputs);
   return 0;
 }
