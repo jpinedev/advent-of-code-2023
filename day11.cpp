@@ -50,23 +50,23 @@ vector<GalaxyLoc> FindGalaxies()
     return galaxies;
 }
 
-void ExpandRow(vector<GalaxyLoc>& universe, long row)
+void ExpandRow(vector<GalaxyLoc>& universe, long row, long expansionFactor)
 {
     for (auto& galaxy : universe)
     {
-        if (galaxy.y > row) ++galaxy.y;
+        if (galaxy.y > row) galaxy.y += expansionFactor - 1;
     }
 }
-void ExpandCol(vector<GalaxyLoc>& universe, long col)
+void ExpandCol(vector<GalaxyLoc>& universe, long col, long expansionFactor)
 {
     for (auto& galaxy : universe)
     {
-        if (galaxy.x > col) ++galaxy.x;
+        if (galaxy.x > col) galaxy.x += expansionFactor - 1;
     }
 }
 
 
-void ExpandUniverse(vector<GalaxyLoc>& universe)
+void ExpandUniverse(vector<GalaxyLoc>& universe, long expansionFactor)
 {
     long maxX = 0, maxY = 0;
     unordered_set<long> nonEmptyRows, nonEmptyCols;
@@ -84,7 +84,7 @@ void ExpandUniverse(vector<GalaxyLoc>& universe)
         if (nonEmptyCols.count(col) != 0)
             continue;
 
-        ExpandCol(universe, col);
+        ExpandCol(universe, col, expansionFactor);
     }
 
     for (long row = maxY; row >= 0; --row)
@@ -92,37 +92,42 @@ void ExpandUniverse(vector<GalaxyLoc>& universe)
         if (nonEmptyRows.count(row) != 0)
             continue;
 
-        ExpandRow(universe, row);
+        ExpandRow(universe, row, expansionFactor);
     }
 }
 
-void Part1(const vector<GalaxyLoc> &inputs)
+long SumDistancesBetweenAllGalaxies(const vector<GalaxyLoc>& universe)
 {
     long sum = 0;
 
-    for (auto firstIt = inputs.begin(); firstIt != inputs.end(); ++firstIt)
+    for (auto firstIt = universe.begin(); firstIt != universe.end(); ++firstIt)
     {
-        // cout << firstIt - inputs.begin() + 1 << ":\n";
-        for (auto secondIt = firstIt + 1; secondIt != inputs.end(); ++secondIt)
+        for (auto secondIt = firstIt + 1; secondIt != universe.end(); ++secondIt)
         {
             sum += ManhattanDistance(*firstIt, *secondIt);
         }
     }
 
-    cout << "Part 1: " << sum << endl;
+    return sum;
 }
 
-// void Part2(const vector<string> &inputs)
-// {
+void Part1(vector<GalaxyLoc> inputs)
+{
+    ExpandUniverse(inputs, 2);
+    cout << "Part 1: " << SumDistancesBetweenAllGalaxies(inputs) << endl;
+}
 
-// }
+
+void Part2(vector<GalaxyLoc> inputs)
+{
+    ExpandUniverse(inputs, 1000000);
+    cout << "Part 2: " << SumDistancesBetweenAllGalaxies(inputs) << endl;
+}
 
 int main()
 {
   vector<GalaxyLoc> inputs = FindGalaxies();
-
-  ExpandUniverse(inputs);
   Part1(inputs);
-  // Part2(inputs);
+  Part2(inputs);
   return 0;
 }
